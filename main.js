@@ -70,15 +70,15 @@ http.createServer(function(req, res) {
     let query = url.parse(req.url).query;
 
     if (query && query.operation) switch (query.operation) {
-        case "lastUpdateDate": res.write(lastUpdateDate); break;
+        case "lastUpdateDate": res.end(lastUpdateDate); break;
         case "update": updateCurrencies(); break;
-        default: res.write("Unresolved operation");
+        default: res.end("Unresolved operation");
     } else {
         fs.readFile("index.html", "utf-8", function(error, result) {
             if (error) {
                 console.log(error);
-                res.write("Internal error occurred");
-            } else res.write(result);
+                res.end("Internal error occurred");
+            } else res.end(result);
         });
     }
 }).listen(8080);
