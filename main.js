@@ -40,7 +40,7 @@ const api_key = 'e96e601f143ecfa02400c818244cf635';
                                 console.log(result.name + " (" + result.description + ")");
                                 if (json.rates[result.name]) {
                                     console.log("    Rate: " + json.rates[result.name]);
-                                    connection.query("UPDATE currencies SET `value` = " + json.rates[result.name] + " WHERE currency_id = " + result.currency_id, function (error) {
+                                    connection.query("UPDATE currencies SET `value` = " + 1 / (json.rates[result.name]) + " WHERE currency_id = " + result.currency_id, function (error) {
                                         if (error) {
                                             console.log(error);
                                         }
