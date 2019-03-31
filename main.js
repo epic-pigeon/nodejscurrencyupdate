@@ -35,50 +35,55 @@ function updateCurrencies() {
             console.log("Type: " + json.error.type);
             console.log("Info: " + json.error.info);
         } else {
-            connection.connect(function (err) {
-                if (err) {
-                    console.log(err);
+            connection.query("SELECT * FROM currencies", function(error, result) {
+                if (error) {
+                    console.log(error);
                 } else {
-                    connection.query("SELECT * FROM currencies", function(error, result) {
-                        if (error) {
-                            console.log(error);
-                        } else {
-                            result.forEach(result => {
-                                console.log(result.name + " (" + result.description + ")");
-                                if (json.rates[result.name]) {
-                                    console.log("    Rate: " + json.rates[result.name]);
-                                    connection.query("UPDATE currencies SET `value` = " + 1 / (json.rates[result.name]) + " WHERE currency_id = " + result.currency_id, function (error) {
-                                        if (error) {
-                                            console.log(error);
-                                        }
-                                    });
+                    result.forEach(result => {
+                        console.log(result.name + " (" + result.description + ")");
+                        if (json.rates[result.name]) {
+                            console.log("    Rate: " + json.rates[result.name]);
+                            connection.query("UPDATE currencies SET `value` = " + 1 / (json.rates[result.name]) + " WHERE currency_id = " + result.currency_id, function (error) {
+                                if (error) {
+                                    console.log(error);
                                 }
-                            })
+                            });
                         }
-                    });
+                    })
                 }
             });
         }
     });
 }
 
-setInterval(updateCurrencies, 1000 * 60 * 60);
-
-updateCurrencies();
-
-http.createServer(function(req, res) {
-    let query = url.parse(req.url).query;
-
-    if (query) switch (query) {
-        case "lastUpdateDate": res.end(lastUpdateDate.toString()); break;
-        case "update": updateCurrencies(); break;
-        default: res.end("Unresolved operation");
+connection.connect(function(err) {
+    if (err) {
+        console.log(err);
     } else {
-        fs.readFile("index.html", "utf-8", function(error, result) {
-            if (error) {
-                console.log(error);
-                res.end("Internal error occurred");
-            } else res.end(result);
-        });
+        setInterval(updateCurrencies, 1000 * 60 * 60);
+
+        updateCurrencies();
+
+        http.createServer(function (req, res) {
+            let query = url.parse(req.url).query;
+
+            if (query) switch (query) {
+                case "lastUpdateDate":
+                    res.end(lastUpdateDate.toString());
+                    break;
+                case "update":
+                    updateCurrencies();
+                    break;
+                default:
+                    res.end("Unresolved operation");
+            } else {
+                fs.readFile("index.html", "utf-8", function (error, result) {
+                    if (error) {
+                        console.log(error);
+                        res.end("Internal error occurred");
+                    } else res.end(result);
+                });
+            }
+        }).listen(8080);
     }
-}).listen(8080);
+});
