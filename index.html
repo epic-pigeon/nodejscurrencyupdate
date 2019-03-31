@@ -15,7 +15,7 @@
         }
 
         function updateData() {
-            httpGetAsync("http://3.89.196.174:8080?operation=lastUpdateDate", function (response) {
+            httpGetAsync("http://3.89.196.174:8080?lastUpdateDate", function (response) {
                 console.log(response);
                 document.querySelector("#lastDate").innerHTML = response;
             });
@@ -27,7 +27,7 @@
             updateData();
 
             document.querySelector("#update").onclick = function () {
-                httpGetAsync("http://3.89.196.174:8080?operation=update");
+                httpGetAsync("http://3.89.196.174:8080?update");
             }
         }
     </script>
