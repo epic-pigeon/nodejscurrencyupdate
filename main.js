@@ -70,7 +70,7 @@ http.createServer(function(req, res) {
     let query = url.parse(req.url).query;
 
     if (query) switch (query) {
-        case "lastUpdateDate": res.end(lastUpdateDate); break;
+        case "lastUpdateDate": res.end(lastUpdateDate.toString()); break;
         case "update": updateCurrencies(); break;
         default: res.end("Unresolved operation");
     } else {
