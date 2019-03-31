@@ -69,6 +69,8 @@ updateCurrencies();
 http.createServer(function(req, res) {
     let query = url.parse(req.url).query;
 
+    console.log(query);
+
     if (query && query.operation) switch (query.operation) {
         case "lastUpdateDate": res.end(lastUpdateDate); break;
         case "update": updateCurrencies(); break;
