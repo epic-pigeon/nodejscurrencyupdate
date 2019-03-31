@@ -14,18 +14,20 @@
             xmlHttp.send(null);
         }
 
-        setInterval(function() {
-            httpGetAsync("http://3.89.196.174:8080?operation=lastUpdateDate", function(response) {
+        window.onload = function() {
+            setInterval(function () {
+                httpGetAsync("http://3.89.196.174:8080?operation=lastUpdateDate", function (response) {
+                    document.querySelector("#lastDate").innerHTML = response;
+                });
+            }, 5000);
+
+            httpGetAsync("http://3.89.196.174:8080?operation=lastUpdateDate", function (response) {
                 document.querySelector("#lastDate").innerHTML = response;
             });
-        }, 5000);
 
-        httpGetAsync("http://3.89.196.174:8080?operation=lastUpdateDate", function(response) {
-            document.querySelector("#lastDate").innerHTML = response;
-        });
-
-        document.querySelector("#update").onclick = function() {
-            httpGetAsync("http://3.89.196.174:8080?operation=update");
+            document.querySelector("#update").onclick = function () {
+                httpGetAsync("http://3.89.196.174:8080?operation=update");
+            }
         }
     </script>
 </head>
