@@ -36,6 +36,7 @@ const api_key = 'e96e601f143ecfa02400c818244cf635';
                         if (error) {
                             console.log(error);
                         } else {
+                            console.log(result);
                             let resultArray = JSON.parse(result);
                             resultArray.forEach(result => {
                                 console.log(result.name + " (" + result.description + ")");
