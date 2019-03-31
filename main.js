@@ -11,7 +11,7 @@ let connection = mysql.createConnection(mysqlOptions);
 const url = 'http://data.fixer.io/api/latest?access_key=';
 const api_key = 'e96e601f143ecfa02400c818244cf635';
 
-//setInterval(function() {
+function updateCurrencies() {
     console.log("Updating, date: " + new Date());
     request(url + api_key, function (error, response, body) {
         let json = {};
@@ -54,4 +54,8 @@ const api_key = 'e96e601f143ecfa02400c818244cf635';
             });
         }
     });
-//}, 1000 * 60 * 60);
+}
+
+setInterval(updateCurrencies, 1000 * 60 * 60);
+
+updateCurrencies();
