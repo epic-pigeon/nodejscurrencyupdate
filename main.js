@@ -1,5 +1,8 @@
 let request = require('request');
 let mysql = require('mysql');
+let http = require('http');
+let url = require('url');
+let fs = require('fs');
 let mysqlOptions = {
     host    : "localhost",
     user    : "checkchecker",
@@ -8,12 +11,15 @@ let mysqlOptions = {
 };
 let connection = mysql.createConnection(mysqlOptions);
 
-const url = 'http://data.fixer.io/api/latest?access_key=';
+const api_url = 'http://data.fixer.io/api/latest?access_key=';
 const api_key = 'e96e601f143ecfa02400c818244cf635';
 
+let lastUpdateDate;
+
 function updateCurrencies() {
-    console.log("Updating, date: " + new Date());
-    request(url + api_key, function (error, response, body) {
+    lastUpdateDate = new Date();
+    console.log("Updating, date: " + lastUpdateDate);
+    request(api_url + api_key, function (error, response, body) {
         let json = {};
         try {
             json = JSON.parse(body);
@@ -59,3 +65,19 @@ function updateCurrencies() {
 setInterval(updateCurrencies, 1000 * 60 * 60);
 
 updateCurrencies();
+
+http.createServer(function(req, res) {
+    let query = url.parse(req.url).query;
+    if (query.operation) switch (query.operation) {
+        case "lastUpdateDate": res.write(lastUpdateDate); break;
+        case "update": updateCurrencies(); break;
+        default: res.write("Unresolved operation");
+    } else {
+        fs.readFile("index.html", "utf-8", function(error, result) {
+            if (error) {
+                console.log(error);
+                res.write("Internal error occurred");
+            } else res.write(result);
+        });
+    }
+}).listen(8080);

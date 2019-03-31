@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Currency update</title>
+    <script>
+        function httpGetAsync(theUrl, callback = () => {}) {
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.onreadystatechange = function() {
+                if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+                    callback(xmlHttp.responseText);
+            };
+            xmlHttp.open("GET", theUrl, true); // true for asynchronous
+            xmlHttp.send(null);
+        }
+
+        setInterval(function() {
+            httpGetAsync("http://3.89.196.174:8080?operation=lastUpdateDate", function(response) {
+                document.querySelector("#lastDate").innerHTML = response;
+            });
+        }, 5000);
+
+        document.querySelector("#update").onclick = function() {
+            httpGetAsync("http://3.89.196.174:8080?operation=update");
+        }
+    </script>
+</head>
+<body>
+<div>Last Update Date: </div><div id="lastDate"></div><br>
+<button id="update">Update</button>
+</body>
+</html>
