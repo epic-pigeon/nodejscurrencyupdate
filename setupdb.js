@@ -26,6 +26,7 @@ request("https://openexchangerates.org/api/currencies.json", function (error, re
                 } else {
                     for (let key in json) {
                         if (json.hasOwnProperty(key)) {
+                            console.log("Inserting '" + key + "' (" + json[key] + ")");
                             connection.query(`INSERT INTO currencies (\`name\`, description) VALUES ('${key}', '${json[key].split("'").join("\\'")}')`, (err) => {if (err) console.log(err)});
                         }
                     }
