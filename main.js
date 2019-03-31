@@ -90,7 +90,7 @@ connection.connect(function(err) {
                     console.log("New refresh time set: " + query.split("setTimeout")[1]);
                     break;
                 case query === "getTimeout":
-                    res.write(timeout + "");
+                    res.end(timeout + "");
                     break;
                 default:
                     res.end("Unresolved operation");
