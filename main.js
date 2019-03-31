@@ -56,23 +56,40 @@ function updateCurrencies() {
     });
 }
 
+
+
 connection.connect(function(err) {
     if (err) {
         console.log(err);
     } else {
-        setInterval(updateCurrencies, 1000 * 60 * 60);
+        let interval, timeout;
 
+        function setRefreshTime(time) {
+            try {clearInterval(interval)} catch (e) {}
+            interval = setInterval(updateCurrencies, time);
+            timeout = time;
+        }
+
+
+        setRefreshTime(1000 * 60 * 60 * 24);
         updateCurrencies();
 
         http.createServer(function (req, res) {
             let query = url.parse(req.url).query;
 
-            if (query) switch (query) {
-                case "lastUpdateDate":
+            if (query) switch (true) {
+                case query === "lastUpdateDate":
                     res.end(lastUpdateDate.toString());
                     break;
-                case "update":
+                case query === "update":
                     updateCurrencies();
+                    break;
+                case query.startsWith("setTimeout"):
+                    setRefreshTime(parseInt(query.split("setTimeout")[1]));
+                    console.log("New refresh time set: " + parseInt(query.split("setTimeout")[1]));
+                    break;
+                case query === "getTimeout":
+                    res.write(timeout);
                     break;
                 default:
                     res.end("Unresolved operation");

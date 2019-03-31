@@ -16,8 +16,13 @@
 
         function updateData() {
             httpGetAsync("http://3.89.196.174:8080?lastUpdateDate", function (response) {
-                console.log(response);
                 document.querySelector("#lastDate").innerHTML = response;
+            });
+        }
+
+        function updateTimeout() {
+            httpGetAsync("http://3.89.196.174:8080?getTimeout", function (response) {
+                document.querySelector("#timeout").value = response;
             });
         }
 
@@ -29,12 +34,22 @@
             document.querySelector("#update").onclick = function () {
                 httpGetAsync("http://3.89.196.174:8080?update");
                 updateData();
+            };
+
+            setInterval(updateTimeout, 5000);
+
+            updateTimeout();
+
+            document.querySelector("#updateTimeout").onclick = function () {
+                httpGetAsync("http://3.89.196.174:8080?setTimeout" + document.querySelector("#timeout").value);
+                updateTimeout();
             }
         }
     </script>
 </head>
 <body>
 <div>Last Update Date: </div><div id="lastDate"></div><br>
-<button id="update">Update</button>
+<button id="update">Update</button><br>
+<label for="timeout">Timeout: </label><input type="text" id="timeout"><button id="updateTimeout"></button>
 </body>
 </html>
