@@ -65,6 +65,7 @@ connection.connect(function(err) {
         let interval, timeout;
 
         function setRefreshTime(time) {
+            if (typeof time !== "number") try {time = parseInt(time);} catch(e) {return}
             try {clearInterval(interval)} catch (e) {}
             interval = setInterval(updateCurrencies, time);
             timeout = time;
@@ -85,8 +86,8 @@ connection.connect(function(err) {
                     updateCurrencies();
                     break;
                 case query.startsWith("setTimeout"):
-                    setRefreshTime(parseInt(query.split("setTimeout")[1]));
-                    console.log("New refresh time set: " + parseInt(query.split("setTimeout")[1]));
+                    setRefreshTime(query.split("setTimeout")[1]);
+                    console.log("New refresh time set: " + query.split("setTimeout")[1]);
                     break;
                 case query === "getTimeout":
                     res.write(timeout);
