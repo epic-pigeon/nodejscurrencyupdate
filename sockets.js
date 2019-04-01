@@ -1,6 +1,6 @@
 let net = require('net');
 
-let port = '8080';
+let port = 8080;
 
 class Client {
     constructor(socket, id) {
