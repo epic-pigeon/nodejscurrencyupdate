@@ -13,6 +13,7 @@ class Client {
 let clients = [];
 
 net.createServer(function (socket) {
+    console.log("somebody connected");
     socket.on('data', function (data) {
         let json = {};
         try {
@@ -36,4 +37,4 @@ net.createServer(function (socket) {
                 break;
         }
     })
-}).listen(8080);
+}).listen(8080, "0.0.0.0");
