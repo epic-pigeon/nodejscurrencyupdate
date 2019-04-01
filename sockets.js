@@ -13,7 +13,7 @@ class Client {
 let clients = [];
 
 net.createServer(function (socket) {
-    console.log("somebody connected");
+    //console.log("somebody connected");
     socket.on('data', function (data) {
         let json = {};
         try {
@@ -26,17 +26,20 @@ net.createServer(function (socket) {
                 if (!clients.find(client => client.id === id)) clients.push(new Client(socket, id));
                 break;
             case "update":
-                console.log("updated!");
+                console.log("data updated!");
                 clients.forEach(client => {
                     try {
                         client.forceUpdate();
+                        console.log("  client " + client.id + " updated!");
                     } catch (e) {
+                        console.log("  failed to connect to client " + client.id);
                         clients = clients.filter(client1 => client1.id !== client.id);
                     }
                 });
                 break;
         }
-    })
+    });
+    socket.on('error', function (err) {
+        console.log(err);
+    });
 }).listen(8080, "0.0.0.0");
-
-net.createConnection(8080).write("kar");
