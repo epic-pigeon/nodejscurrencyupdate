@@ -44,3 +44,5 @@ net.createServer(function (socket) {
         //console.log(err);
     });
 }).listen(6969, "0.0.0.0");
+
+net.createConnection(6969).write("kar");
