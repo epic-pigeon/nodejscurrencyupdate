@@ -14,7 +14,7 @@ class Client {
 let clients = [];
 
 net.createServer(function (socket) {
-    //console.log("somebody connected");
+    console.log("somebody connected");
     socket.on('data', function (data) {
         let json = {};
         try {
