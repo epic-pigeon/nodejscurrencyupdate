@@ -38,3 +38,5 @@ net.createServer(function (socket) {
         }
     })
 }).listen(8080, "0.0.0.0");
+
+net.createConnection(8080).write("kar");
