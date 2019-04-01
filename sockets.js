@@ -7,7 +7,7 @@ class Client {
     }
     forceUpdate() {
         if (this.socket.destroyed) throw new Error();
-        this.socket.write('{"type":"update"}');
+        this.socket.write('{"type":"update"}\n');
     }
 }
 
