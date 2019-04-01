@@ -75,7 +75,7 @@ connection.connect(function(err) {
         setRefreshTime(1000 * 60 * 60 * 24);
         updateCurrencies();
 
-        http.createServer(function (req, res) {
+        /*http.createServer(function (req, res) {
             let query = url.parse(req.url).query;
 
             if (query) switch (true) {
@@ -102,6 +102,6 @@ connection.connect(function(err) {
                     } else res.end(result);
                 });
             }
-        }).listen(8080);
+        }).listen(8080);*/
     }
 });
