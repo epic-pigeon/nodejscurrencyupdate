@@ -6,6 +6,7 @@ class Client {
         this.id = parseInt(id);
     }
     forceUpdate() {
+        if (this.socket.destroyed) throw new Error();
         this.socket.write('{"type":"update"}');
     }
 }
