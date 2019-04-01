@@ -5,9 +5,9 @@ class Client {
         this.socket = socket;
         this.id = parseInt(id);
     }
-    forceUpdate() {
+    forceUpdate(id) {
         if (this.socket.destroyed) throw new Error();
-        this.socket.write('{"type":"update"}\n');
+        this.socket.write('{"type":"update", "id":"' + id + '"}\n');
     }
 }
 
@@ -30,7 +30,7 @@ net.createServer(function (socket) {
                 console.log("data updated!");
                 clients.forEach(client => {
                     try {
-                        client.forceUpdate();
+                        client.forceUpdate(parseInt(json.id));
                         console.log("  client " + client.id + " updated!");
                     } catch (e) {
                         console.log("  failed to connect to client " + client.id + ", deleting...");
