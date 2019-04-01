@@ -1,7 +1,5 @@
 let net = require('net');
 
-let port = 8080;
-
 class Client {
     constructor(socket, id) {
         this.socket = socket;
@@ -38,4 +36,4 @@ net.createServer(function (socket) {
                 break;
         }
     })
-}).listen(port);
+}).listen(8080);
