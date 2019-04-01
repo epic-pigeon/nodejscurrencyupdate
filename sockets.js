@@ -33,7 +33,7 @@ net.createServer(function (socket) {
                         client.forceUpdate();
                         console.log("  client " + client.id + " updated!");
                     } catch (e) {
-                        console.log("  failed to connect to client " + client.id);
+                        console.log("  failed to connect to client " + client.id + ", deleting...");
                         clients = clients.filter(client1 => client1.id !== client.id);
                     }
                 });
@@ -41,6 +41,6 @@ net.createServer(function (socket) {
         }
     });
     socket.on('error', function (err) {
-        console.log(err);
+        //console.log(err);
     });
 }).listen(8080, "0.0.0.0");
