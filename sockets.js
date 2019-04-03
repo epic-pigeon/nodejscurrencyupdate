@@ -28,10 +28,10 @@ net.createServer(function (socket) {
                 break;
             case "update":
                 console.log(json);
-                console.log("data updated! client id: '" + json.id + "'");
+                console.log("data updated! client id: '" + json.client_id + "'");
                 clients.forEach(client => {
                     try {
-                        client.forceUpdate(parseInt(json.id));
+                        client.forceUpdate(parseInt(json.client_id));
                         console.log("  client " + client.id + " updated!");
                     } catch (e) {
                         console.log("  failed to connect to client " + client.id + ", deleting...");
