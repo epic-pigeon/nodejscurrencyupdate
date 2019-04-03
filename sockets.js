@@ -27,7 +27,6 @@ net.createServer(function (socket) {
                 if (!clients.find(client => client.id === id)) clients.push(new Client(socket, id));
                 break;
             case "update":
-                console.log(json);
                 console.log("data updated! client id: '" + json.client_id + "'");
                 clients.forEach(client => {
                     try {
