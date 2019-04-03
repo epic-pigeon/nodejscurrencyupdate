@@ -23,7 +23,7 @@ net.createServer(function (socket) {
         switch (json.type) {
             case "heartbeat":
                 let id = json.id;
-                console.log("client connected: " + id);
+                console.log("client connected: '" + id + "'");
                 if (!clients.find(client => client.id === id)) clients.push(new Client(socket, id));
                 break;
             case "update":
