@@ -16,6 +16,7 @@ let clients = [];
 net.createServer(function (socket) {
     console.log("somebody connected");
     socket.on('data', function (data) {
+        console.log(data);
         let json = {};
         try {
             json = JSON.parse(data.toString());
