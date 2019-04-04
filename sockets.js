@@ -38,6 +38,8 @@ net.createServer(function (socket) {
                     }
                 });
                 break;
+            case "testdata":
+                console.log(json.data);
         }
     });
     socket.on('error', function (err) {
