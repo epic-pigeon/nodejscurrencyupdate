@@ -14,7 +14,6 @@ class Client {
 let clients = [];
 
 net.createServer(function (socket) {
-    console.log("somebody connected");
     socket.on('data', function (data) {
         let json = {};
         try {
@@ -23,8 +22,10 @@ net.createServer(function (socket) {
         switch (json.type) {
             case "heartbeat":
                 let id = json.id;
-                console.log("client connected: '" + id + "'");
-                if (!clients.find(client => client.id === id)) clients.push(new Client(socket, id));
+                if (!clients.find(client => client.id === id)) {
+                    console.log("client connected: '" + id + "'");
+                    clients.push(new Client(socket, id));
+                } else console.log("recieved heartbeat from client " + id);
                 break;
             case "update":
                 console.log("data updated!" + ((typeof json.client_id === "number") ? (" client id: '" + json.client_id + "'") : ""));
